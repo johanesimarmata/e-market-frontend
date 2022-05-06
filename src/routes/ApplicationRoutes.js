@@ -1,7 +1,6 @@
 import {
      Routes,
-     Route,
-     Navigate
+     Route
  } from 'react-router-dom'
 import { ExamplePage } from '../pages/example/ExamplePage'
 
