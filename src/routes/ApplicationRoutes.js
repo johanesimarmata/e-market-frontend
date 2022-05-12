@@ -4,11 +4,14 @@ import {
  } from 'react-router-dom'
 import { ExamplePage } from '../pages/example/ExamplePage'
 import { EWalletPage } from '../pages/e-wallet/EWalletPage'
+import { OrderListPage } from '../pages/order/OrderListPage'
+
 export const ApplicationRoutes = () => {
      return(
           <Routes>
                <Route path='/' element={<ExamplePage/>}/>
                <Route path='/e-wallet' element={<EWalletPage/>}/>
+               <Route path='/order' element={<OrderListPage/>}/>
           </Routes>
      )
 }
