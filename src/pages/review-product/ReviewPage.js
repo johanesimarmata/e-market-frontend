@@ -47,8 +47,8 @@ export const ReviewPage = ({idproduct}) => {
           } else {
                let reviewData = {
                     product_id : idproduct,
-                    reviewer_username: "user",
-                    reviewer_image: "https://statinfer.com/wp-content/uploads/dummy-user.png",
+                    reviewer_username: "johanesimarmata",
+                    reviewer_image: "https://assets-global.website-files.com/5a016d51240da900013d2ea2/5fc8e1f4bc8a02aecf06f035_eyeem-23716958-121079333-(1)%20(1).png",
                     content: input
                }
      
