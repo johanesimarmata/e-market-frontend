@@ -1,33 +1,128 @@
+import axios from 'axios'
 import React from 'react'
-import { Container, Row, Col } from 'react-bootstrap'
+import { Container, Row, Col, FormControl, Button, InputGroup } from 'react-bootstrap'
 import {Review} from './components/Review'
-let dummyReviewData = [
-     {
-          id: 1,
-          username: 'username',
-          timestamp: '2022-10-12, 12:30',
-          content: 'Lorem ipsum dolor sit amet'
-     },
-     {
-          id: 2,
-          username: 'username2',
-          timestamp: '2022-10-12, 12:30',
-          content: 'Lorem ipsum dolor sit amet'
-     }
-]
 
-export const ReviewPage = () => {
+export const ReviewPage = ({idproduct}) => {
+     const [data, setData] = React.useState([])
+     const [input, setInput] = React.useState('')
+     const [refetch, setRefetch] = React.useState(true)
+     const [currentReviewId, setCurrentReviewId] = React.useState(null)
+
+     React.useEffect(() => {
+          const getReviewsData = () => {
+               let config = {
+                    method: 'get',
+                    url: 'https://e-market-product-review.herokuapp.com/api/review-product/',
+               }
+               axios(config).then((response) => {
+                    setData(response.data.data)
+                    setRefetch(false)
+               }).catch(() => {
+                    alert('error when fetching reviews data')
+               })
+          }
+          if(!data.length && refetch){
+               getReviewsData()
+          }
+     }, [data])
+
+     const createReview = () => {
+          if(currentReviewId){
+               let config = {
+                    method: 'put',
+                    url: `https://e-market-product-review.herokuapp.com/api/review-product/${currentReviewId}`,
+                    data: {
+                         content: input
+                    }
+               }
+               axios(config).then(() => {
+                    setCurrentReviewId(null)
+                    setData([])
+                    setInput('')
+                    setRefetch(true)
+               }).catch(() => {
+                    alert('review gagal diubah')
+               })
+          } else {
+               let reviewData = {
+                    product_id : idproduct,
+                    reviewer_username: "user",
+                    reviewer_image: "https://statinfer.com/wp-content/uploads/dummy-user.png",
+                    content: input
+               }
+     
+               let config = {
+                    method: 'post',
+                    url: 'https://e-market-product-review.herokuapp.com/api/review-product/',
+                    data: reviewData
+               }
+     
+               axios(config).then(() => {
+                    setData([])
+                    setInput('')
+                    setRefetch(true)
+               }).catch(() => {
+                    alert('review gagal ditambahkan')
+               })
+          }
+     }
+
+     const editReview = (review) => {
+          setCurrentReviewId(review.id)
+          setInput(review.content)
+     }
+
+     const deleteReview = (review) => {
+          let config = {
+               method: 'delete',
+               url: `https://e-market-product-review.herokuapp.com/api/review-product/${review.id}`,
+          }
+          axios(config).then(() => {
+               setData([])
+               setInput('')
+               setRefetch(true)
+          }).catch(() => {
+               alert('review gagal dihapus')
+          })
+     }
+
+     const resetForm = () => {
+          setCurrentReviewId(null)
+          setInput('')
+     }
+
      return(
           <>
-               <Container>
-                    <Row className='my-3'>
+               <Container className='py-3'>
+                    <Row>
                          <Col>
                               <h2>Review Produk</h2>
                          </Col>
                     </Row>
+                    <Row>
+                         <InputGroup className="mb-3">
+                              <FormControl
+                                   placeholder="Masukkan review untuk produk ini..."
+                                   aria-label="Masukkan review untuk produk ini..."
+                                   aria-describedby="basic-addon2"
+                                   value={input}
+                                   onChange={(e) => setInput(e.target.value)}
+                              />
+                              <Button variant="outline-secondary" id="button-addon2" onClick={createReview}>
+                                   {currentReviewId ? 'Edit Review' : 'Create Review'}
+                              </Button>
+                              {
+                                   currentReviewId ? 
+                                   <Button variant="outline-danger" id="button-addon2" onClick={resetForm}>
+                                        Reset Form
+                                   </Button> : null
+                              }
+                         </InputGroup>
+                    </Row>
                     {
-                         dummyReviewData.map((review) => (
-                              <Review data={review} key={review.id}/>
+                         data.map((review) => (
+                              <Review data={review} key={review.id} editHandler={() => editReview(review)} deleteHandler={() => deleteReview(review)}/>
                          ))
                     }
                </Container>
