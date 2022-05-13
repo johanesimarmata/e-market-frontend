@@ -1,3 +1,4 @@
+import axios from 'axios'
 import React from 'react'
 import { Container, Row, Col, Tabs, Tab } from 'react-bootstrap'
 import { TopUpBank } from './components/TopUpBank'
@@ -5,8 +6,38 @@ import { UploadBuktiPembayaran } from './components/UploadBuktiPembayaran'
 import styles from './EWallet.module.css'
 
 export const EWalletPage = () => {
-
+     let username = 'johanesimarmata'
      const [currentTab, setCurrentTab] = React.useState('top-up-bank')
+     const [saldo, setSaldo] = React.useState('')
+     const [refetch, setRefetch] = React.useState(true)
+
+     React.useEffect(() => {
+          const fetchEWallet = () => {
+               let config = {
+                    method: 'get',
+                    url: `https://e-market-wallet.herokuapp.com/api/e-wallet/${username}`,
+               }
+               axios(config).then((res) => {
+                    setSaldo(res.data.data.saldo)
+                    setRefetch(false)
+               }).catch(() => {
+                    alert('error when fetching e-wallet')
+               })
+          }
+
+          if(refetch){
+               fetchEWallet()
+          }
+
+     }, [saldo, refetch, username])
+
+     const currencyFormat=(num)=> {
+          return new Intl.NumberFormat("id-ID", { style: "currency", currency: "IDR" }).format(num);
+     };
+
+     const refetching = () => {
+          setRefetch(true)
+     }
 
      return(
           <>
@@ -19,7 +50,7 @@ export const EWalletPage = () => {
                     <Row>
                          <Col className={`${styles.informasiSaldo} py-3 d-flex flex-row justify-content-around align-items-center`}>
                               <h3 className={styles.noMarginBottom}>Saldo</h3>
-                              <h3 className={styles.noMarginBottom}>Rp 12.000.000</h3>
+                              <h3 className={styles.noMarginBottom}>{currencyFormat(saldo)}</h3>
                          </Col>
                     </Row>
                </Container>
@@ -39,10 +70,10 @@ export const EWalletPage = () => {
                                    justify
                               >
                                    <Tab eventKey="top-up-bank" title="Top up Bank">
-                                        <TopUpBank/>
+                                        <TopUpBank refetchEWallet={refetching}/>
                                    </Tab>
                                    <Tab eventKey="upload-bukti-pembayaran" title="Upload Bukti Pembayaran">
-                                        <UploadBuktiPembayaran/>
+                                        <UploadBuktiPembayaran refetchEWallet={refetching}/>
                                    </Tab>
                               </Tabs>
                          </Col>
