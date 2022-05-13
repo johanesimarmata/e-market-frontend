@@ -20,7 +20,7 @@ export const LoginPage = () => {
       const response = await fetch('https://cors-anywhere.herokuapp.com/tk.oauth.getoboru.xyz/login', {
         method: 'post',
         body: JSON.stringify({ username, password }),
-        headers: {'Content-Type': 'application/json', origin: null}
+        headers: {'Content-Type': 'application/json', origin: null, 'x-requested-with': null }
       });
 
       if (!response.ok){
