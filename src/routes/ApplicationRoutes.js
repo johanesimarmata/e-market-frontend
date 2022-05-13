@@ -12,6 +12,8 @@ import { LoginPage } from '../pages/Login/LoginPage'
 import { UserContext } from '../context/UserContext'
 import { useCallback, useContext } from 'react'
 import { ListProductPage } from '../pages/list-product/ListProductPage'
+import { DeliveryConfirmationPage } from '../pages/delivery/delivery'
+import { DeliveryListPage } from '../pages/delivery/deliverylist'
 
 
 export const ApplicationRoutes = () => {
@@ -35,6 +37,8 @@ export const ApplicationRoutes = () => {
                <Route path='/order' element={ProtectedRoute(<OrderListPage/>)}/>
                <Route path='/product-details/:idproduct' element={<ProductDetails/>}/>
                <Route path='/order/detail' element={ProtectedRoute(<OrderDetailPage/>)}/>
+               <Route path='/delivery' element={<DeliveryConfirmationPage/>}/>
+               <Route path='/delivery-list' element={<DeliveryListPage/>}/>
           </Routes>
      )
 }
