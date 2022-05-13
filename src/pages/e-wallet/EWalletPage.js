@@ -73,7 +73,7 @@ export const EWalletPage = () => {
                                         <TopUpBank refetchEWallet={refetching}/>
                                    </Tab>
                                    <Tab eventKey="upload-bukti-pembayaran" title="Upload Bukti Pembayaran">
-                                        <UploadBuktiPembayaran/>
+                                        <UploadBuktiPembayaran refetchEWallet={refetching}/>
                                    </Tab>
                               </Tabs>
                          </Col>
