@@ -1,0 +1,26 @@
+.containerBox{
+    background-color: lightgrey;
+    border-radius: 15px;
+}
+
+.statusBox{
+    font-size: large;
+    font-weight: 400;
+    background-color: lightgreen;
+    color: gray;
+    border-radius: 20px;
+}
+
+.statusBoxDone{
+    font-size: large;
+    font-weight: 400;
+    background-color: black;
+    color: white;
+    border-radius: 20px;
+}
+
+.cardBodyP{
+    margin-bottom: 0;
+    font-weight: 500;
+}
+
