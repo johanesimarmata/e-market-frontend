@@ -37,7 +37,10 @@ const EMarketNavbar = () =>{
                     <Nav.Link href="/login">Login</Nav.Link></>):(<>
                     <Nav.Link href="#link">Cart</Nav.Link>
                     <Nav.Link href="/e-wallet">E-Wallet</Nav.Link>
-                    <Nav.Link href="/order">History</Nav.Link></>)
+                    <Nav.Link href="/order">History</Nav.Link>
+                    <Nav.Link href="/delivery-list">Delivery</Nav.Link>
+                    </>
+                    )
                     }
                 </Nav>
                 <Nav>
