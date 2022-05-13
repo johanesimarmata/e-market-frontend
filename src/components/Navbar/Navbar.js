@@ -13,8 +13,8 @@ const EMarketNavbar = () =>{
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
                 <Nav className="me-auto">
-                    {!user ? (<>
                     <Nav.Link href="/list-produk">Product</Nav.Link>
+                    {!user ? (<>
                     <Nav.Link href="/login">Login</Nav.Link></>):(<>
                     <Nav.Link href="#link">Cart</Nav.Link>
                     <Nav.Link href="/e-wallet">E-Wallet</Nav.Link>
