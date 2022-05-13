@@ -5,6 +5,7 @@ import {
  } from 'react-router-dom'
 import { ExamplePage } from '../pages/example/ExamplePage'
 import { EWalletPage } from '../pages/e-wallet/EWalletPage'
+import { ProductDetails } from '../pages/product-details/ProductDetails'
 import { OrderListPage } from '../pages/order/OrderListPage'
 import { OrderDetailPage } from '../pages/order/OrderDetailPage'
 import { LoginPage } from '../pages/Login/LoginPage'
@@ -30,6 +31,7 @@ export const ApplicationRoutes = () => {
                <Route path='/login' element={LoginRoute(<LoginPage/>)}/>
                <Route path='/e-wallet' element={ProtectedRoute(<EWalletPage/>)}/>
                <Route path='/order' element={ProtectedRoute(<OrderListPage/>)}/>
+               <Route path='/product-details/:idproduct' element={ProtectedRoute(<ProductDetails/>)}/>
                <Route path='/order/detail' element={ProtectedRoute(<OrderDetailPage/>)}/>
           </Routes>
      )
