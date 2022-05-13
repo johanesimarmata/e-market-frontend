@@ -17,15 +17,15 @@ export const LoginPage = () => {
   async function handleSubmit(event) {
     event.preventDefault();
     try {
-      const response = await fetch('https://cors-anywhere.herokuapp.com/tk.oauth.getoboru.xyz/login', {
+      const response = await fetch('http://tk.oauth.getoboru.xyz/login', {
         method: 'post',
         body: JSON.stringify({ username, password }),
-        headers: {'Content-Type': 'application/json', 'Origin': 'https://e-market-law.netlify.app', 'X-Requested-With': 'e-market-law.netlify.app' }
+        headers: { 'Content-Type': 'application/json' }
       });
 
       if (!response.ok){
-        if (response.status === 401) alert('Kode / PIN Pertandingan Salah');
-        else if (response.status === 400) alert('Tidak memasukkan Kode / PIN pertandingan');
+        if (response.status === 401) alert('User /Password salah');
+        else if (response.status === 400) alert('Tidak ada user / password');
         else alert('Terdapat kesalahan pada server, harap kontak admin');
         return;
       }
