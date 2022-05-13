@@ -17,10 +17,10 @@ export const LoginPage = () => {
   async function handleSubmit(event) {
     event.preventDefault();
     try {
-      const response = await fetch('http://tk.oauth.getoboru.xyz/login', {
+      const response = await fetch('https://cors-anywhere.herokuapp.com/tk.oauth.getoboru.xyz/login', {
         method: 'post',
         body: JSON.stringify({ username, password }),
-        headers: {'Content-Type': 'application/json'}
+        headers: {'Content-Type': 'application/json', origin: null}
       });
 
       if (!response.ok){
