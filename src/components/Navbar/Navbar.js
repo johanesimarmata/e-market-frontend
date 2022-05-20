@@ -5,7 +5,26 @@ import { useContext } from 'react'
 import { UserContext } from '../../context/UserContext'
 
 const EMarketNavbar = () =>{
-    const [user] = useContext(UserContext);
+    const [user, setUser] = useContext(UserContext);
+
+    const logout = async ()  => {
+        try{
+            await fetch('http://tk.oauth.getoboru.xyz/logout', {
+                method: 'post',
+                headers: {
+                    'Authorization': `Bearer ${user?.access_token}`, 
+                    'Content-Type': 'application/json' 
+                }
+            });
+        } catch(err) {
+            console.log(err);
+        } 
+        finally {
+            localStorage.removeItem('user');
+            setUser(null);
+        }
+    }
+
     return(
         <Navbar collapseOnSelect  expand="lg" bg="dark" variant="dark" className='navbar-wrapper'>
             <Container>
@@ -18,12 +37,15 @@ const EMarketNavbar = () =>{
                     <Nav.Link href="/login">Login</Nav.Link></>):(<>
                     <Nav.Link href="#link">Cart</Nav.Link>
                     <Nav.Link href="/e-wallet">E-Wallet</Nav.Link>
-                    <Nav.Link href="/order">History</Nav.Link></>)
+                    <Nav.Link href="/order">History</Nav.Link>
+                    <Nav.Link href="/delivery-list">Delivery</Nav.Link>
+                    </>
+                    )
                     }
                 </Nav>
                 <Nav>
                     {user && <><Nav.Link href="">Rp.500000</Nav.Link>
-                    <Nav.Link href="">Logout</Nav.Link></>}
+                    <Nav.Link href="" onClick={logout}> Logout</Nav.Link></>}
                 </Nav>
                 </Navbar.Collapse>
             </Container>

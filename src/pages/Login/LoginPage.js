@@ -5,7 +5,7 @@ import { UserContext } from "../../context/UserContext";
 import { useNavigate } from "react-router-dom";
 
 export const LoginPage = () => {
-  const [setUser] = useContext(UserContext);
+  const [, setUser] = useContext(UserContext);
   const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -20,12 +20,12 @@ export const LoginPage = () => {
       const response = await fetch('http://tk.oauth.getoboru.xyz/login', {
         method: 'post',
         body: JSON.stringify({ username, password }),
-        headers: {'Content-Type': 'application/json'}
+        headers: { 'Content-Type': 'application/json' }
       });
 
       if (!response.ok){
-        if (response.status === 401) alert('Kode / PIN Pertandingan Salah');
-        else if (response.status === 400) alert('Tidak memasukkan Kode / PIN pertandingan');
+        if (response.status === 401) alert('User /Password salah');
+        else if (response.status === 400) alert('Tidak ada user / password');
         else alert('Terdapat kesalahan pada server, harap kontak admin');
         return;
       }
