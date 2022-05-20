@@ -3,6 +3,7 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import { UserContext } from "../../context/UserContext";
 import { useNavigate } from "react-router-dom";
+import './LoginPage.css'
 
 export const LoginPage = () => {
   const [, setUser] = useContext(UserContext);
@@ -39,26 +40,28 @@ export const LoginPage = () => {
   }
 
   return (
-    <div className="Login">
+    <div className="Login shadow-sm">
       <Form onSubmit={handleSubmit}>
-        <Form.Group size="lg" controlId="email">
-          <Form.Label>Email</Form.Label>
+        <Form.Group controlId="email">
+          <Form.Label className='login-label'>Email</Form.Label>
           <Form.Control
+            size="lg"
             autoFocus
             type="text"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
           />
         </Form.Group>
-        <Form.Group size="lg" controlId="password">
-          <Form.Label>Password</Form.Label>
+        <Form.Group controlId="password">
+          <Form.Label className='login-label mt-3'>Password</Form.Label>
           <Form.Control
+            size="lg"
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
         </Form.Group>
-        <Button block size="lg" type="submit" disabled={!validateForm()}>
+        <Button block size="lg" type="submit" className='mt-3 w-25' disabled={!validateForm()}>
           Login
         </Button>
       </Form>

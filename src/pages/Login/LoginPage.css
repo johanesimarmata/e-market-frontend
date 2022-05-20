@@ -1,0 +1,10 @@
+.Login{
+    margin:100px;
+    padding: 80px;
+    border-radius: 10px;
+    background-color: rgba(64, 156, 199, 0.568);
+}
+
+.login-label{
+    font-size: 20px;
+}

@@ -1,6 +1,6 @@
 import Navbar from 'react-bootstrap/Navbar'
 import {Container, Nav} from 'react-bootstrap'
-import {style} from './Navbar.css'
+import './Navbar.css'
 import { useContext } from 'react'
 import { UserContext } from '../../context/UserContext'
 
