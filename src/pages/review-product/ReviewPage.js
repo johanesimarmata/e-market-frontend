@@ -1,9 +1,11 @@
 import axios from 'axios'
 import React from 'react'
 import { Container, Row, Col, FormControl, Button, InputGroup } from 'react-bootstrap'
+import { UserContext } from '../../context/UserContext'
 import {Review} from './components/Review'
 
 export const ReviewPage = ({idproduct}) => {
+     const [user, ] = React.useContext(UserContext)
      const [data, setData] = React.useState([])
      const [input, setInput] = React.useState('')
      const [refetch, setRefetch] = React.useState(true)
@@ -47,7 +49,7 @@ export const ReviewPage = ({idproduct}) => {
           } else {
                let reviewData = {
                     product_id : idproduct,
-                    reviewer_username: "johanesimarmata",
+                    reviewer_username: user.username,
                     reviewer_image: "https://assets-global.website-files.com/5a016d51240da900013d2ea2/5fc8e1f4bc8a02aecf06f035_eyeem-23716958-121079333-(1)%20(1).png",
                     content: input
                }
