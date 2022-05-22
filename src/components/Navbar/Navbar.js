@@ -3,9 +3,28 @@ import {Container, Nav} from 'react-bootstrap'
 import './Navbar.css'
 import { useContext } from 'react'
 import { UserContext } from '../../context/UserContext'
+import axios from 'axios'
+import React from 'react'
 
 const EMarketNavbar = () =>{
     const [user, setUser] = useContext(UserContext);
+    const [saldo, setSaldo] = React.useState('')
+    React.useEffect(() => {
+        const fetchEWallet = () => {
+            let config = {
+                method: 'get',
+                url: `https://e-market-wallet.herokuapp.com/api/e-wallet/${user.username}/`,
+            }
+            axios(config).then((res) => {
+                setSaldo(new Intl.NumberFormat("id-ID", { style: "currency", currency: "IDR" }).format(res.data.data.saldo))
+            }).catch(() => {
+                alert('error when fetching e-wallet')
+            })
+        }
+        if(user != null){
+            fetchEWallet()
+        }
+    }, [user, saldo])
 
     const logout = async ()  => {
         try{
@@ -44,7 +63,7 @@ const EMarketNavbar = () =>{
                     }
                 </Nav>
                 <Nav>
-                    {user && <><Nav.Link href="">Rp.500000</Nav.Link>
+                    {user && <><Nav.Link href="">{saldo}</Nav.Link>
                     <Nav.Link href="" onClick={logout}> Logout</Nav.Link></>}
                 </Nav>
                 </Navbar.Collapse>
