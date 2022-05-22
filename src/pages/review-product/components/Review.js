@@ -1,8 +1,9 @@
 import React from 'react'
 import {Card, Button} from 'react-bootstrap'
+import { UserContext } from '../../../context/UserContext'
 
 export const Review = ({data, editHandler, deleteHandler}) => {
-     const fakeUsername = "johanesimarmata"
+     const [user, ] = React.useContext(UserContext)
      const getTimeStamp = (created, updated) => {
           return created === updated ? new Date(created).toLocaleString() : new Date(updated).toLocaleString()
      }
@@ -20,7 +21,7 @@ export const Review = ({data, editHandler, deleteHandler}) => {
                                    </div>
                               </div>
                               {
-                                   fakeUsername === data.reviewer_username ? 
+                                   user?.username === data.reviewer_username ? 
                                    <div>
                                         <Button variant="outline-warning" className='mx-2' onClick={editHandler}>
                                              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-pencil-square" viewBox="0 0 16 16">
