@@ -1,12 +1,13 @@
 import axios from 'axios'
 import React from 'react'
 import { Container, Row, Col, Tabs, Tab } from 'react-bootstrap'
+import { UserContext } from '../../context/UserContext'
 import { TopUpBank } from './components/TopUpBank'
 import { UploadBuktiPembayaran } from './components/UploadBuktiPembayaran'
 import styles from './EWallet.module.css'
 
 export const EWalletPage = () => {
-     let username = 'johanesimarmata'
+     const [user, ] = React.useContext(UserContext)
      const [currentTab, setCurrentTab] = React.useState('top-up-bank')
      const [saldo, setSaldo] = React.useState('')
      const [refetch, setRefetch] = React.useState(true)
@@ -15,7 +16,7 @@ export const EWalletPage = () => {
           const fetchEWallet = () => {
                let config = {
                     method: 'get',
-                    url: `https://e-market-wallet.herokuapp.com/api/e-wallet/${username}`,
+                    url: `https://e-market-wallet.herokuapp.com/api/e-wallet/${user.username}/`,
                }
                axios(config).then((res) => {
                     setSaldo(res.data.data.saldo)
@@ -29,7 +30,7 @@ export const EWalletPage = () => {
                fetchEWallet()
           }
 
-     }, [saldo, refetch, username])
+     }, [saldo, refetch])
 
      const currencyFormat=(num)=> {
           return new Intl.NumberFormat("id-ID", { style: "currency", currency: "IDR" }).format(num);
