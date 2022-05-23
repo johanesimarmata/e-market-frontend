@@ -29,7 +29,7 @@ export const UploadBuktiPembayaran = ({refetchEWallet}) => {
 
      const handleSubmit = () => {
           const fd = new FormData();
-          fd.set("username", user.username)
+          fd.set("username", user.user.username)
           fd.append("image", input.image)
           fd.set("nominal", input.nominal)
 
@@ -47,6 +47,7 @@ export const UploadBuktiPembayaran = ({refetchEWallet}) => {
                }
                setInput(clearInput)
                imageInputRef.current.value = ""
+               window.location.reload()
           }).catch(() => {
                alert('top up dengan bukti pembayaran gagal!')
           })

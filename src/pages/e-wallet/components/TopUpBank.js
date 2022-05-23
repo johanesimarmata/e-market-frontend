@@ -36,7 +36,7 @@ export const TopUpBank = ({refetchEWallet}) => {
 
           let topUpData = {
                ...input,
-               username: user.username
+               username: user.user.username
           }
 
           let config = {
@@ -45,7 +45,7 @@ export const TopUpBank = ({refetchEWallet}) => {
                data: topUpData
           }
 
-          axios(config).then((res) => {
+          axios(config).then(() => {
                refetchEWallet()
                let clearInput = {
                     nominal: "", 
@@ -56,7 +56,7 @@ export const TopUpBank = ({refetchEWallet}) => {
                     card_verification_code:"",
                }
                setInput(clearInput)
-
+               window.location.reload()
           }).catch(() => {
                alert('top up dengan bank gagal!')
           })

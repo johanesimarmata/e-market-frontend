@@ -21,7 +21,7 @@ export const Review = ({data, editHandler, deleteHandler}) => {
                                    </div>
                               </div>
                               {
-                                   user?.username === data.reviewer_username ? 
+                                   user?.user.username === data.reviewer_username ? 
                                    <div>
                                         <Button variant="outline-warning" className='mx-2' onClick={editHandler}>
                                              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-pencil-square" viewBox="0 0 16 16">

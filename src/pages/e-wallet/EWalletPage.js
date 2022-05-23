@@ -16,7 +16,7 @@ export const EWalletPage = () => {
           const fetchEWallet = () => {
                let config = {
                     method: 'get',
-                    url: `https://e-market-wallet.herokuapp.com/api/e-wallet/${user.username}/`,
+                    url: `https://e-market-wallet.herokuapp.com/api/e-wallet/${user.user.username}/`,
                }
                axios(config).then((res) => {
                     setSaldo(res.data.data.saldo)
