@@ -31,12 +31,8 @@ export const LoginPage = () => {
         return;
       }
       const content = await response.json();
-      let dataUser =  {
-        username: username,
-        ...content
-      }
-      setUser(dataUser)
-      localStorage.setItem("user", JSON.stringify(dataUser));
+      setUser(content)
+      localStorage.setItem("user", JSON.stringify(content));
       navigate('/e-wallet');
     } catch(err) {
       alert('Terdapat kesalahan pada server, harap kontak admin');

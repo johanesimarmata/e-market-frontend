@@ -13,7 +13,7 @@ const EMarketNavbar = () =>{
         const fetchEWallet = () => {
             let config = {
                 method: 'get',
-                url: `https://e-market-wallet.herokuapp.com/api/e-wallet/${user.username}/`,
+                url: `https://e-market-wallet.herokuapp.com/api/e-wallet/${user.user.username}/`,
             }
             axios(config).then((res) => {
                 setSaldo(new Intl.NumberFormat("id-ID", { style: "currency", currency: "IDR" }).format(res.data.data.saldo))
