@@ -10,7 +10,20 @@ const EMarketNavbar = () =>{
     const [user, setUser] = useContext(UserContext);
     const [saldo, setSaldo] = React.useState('')
     React.useEffect(() => {
-        const fetchEWallet = () => {
+        const getValidationToken = () => {
+            let config = {
+                url: 'http://tk.oauth.getoboru.xyz/token/resource',
+                method: 'get',
+                headers: {
+                    'Authorization': `Bearer ${user.access_token}`
+                }
+            }
+            axios(config).catch(() => {
+                alert('Invalid Token')
+                logout()
+            })
+        }
+        const fetchEWallet = async () => {
             let config = {
                 method: 'get',
                 url: `https://e-market-wallet.herokuapp.com/api/e-wallet/${user.user.username}/`,
@@ -22,6 +35,7 @@ const EMarketNavbar = () =>{
             })
         }
         if(user != null){
+            getValidationToken()
             fetchEWallet()
         }
     }, [user, saldo])
