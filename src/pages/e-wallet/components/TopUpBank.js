@@ -2,9 +2,10 @@ import React from 'react'
 import { Row, Col, Form, Button } from 'react-bootstrap'
 import styles from './TopUpBank.module.css'
 import axios from 'axios'
+import { UserContext } from '../../../context/UserContext'
 
 export const TopUpBank = ({refetchEWallet}) => {
-
+     const [user, ] = React.useContext(UserContext)
      const [input, setInput] = React.useState({
           nominal: "", 
           bank: "",
@@ -35,7 +36,7 @@ export const TopUpBank = ({refetchEWallet}) => {
 
           let topUpData = {
                ...input,
-               username: 'johanesimarmata'
+               username: user.user.username
           }
 
           let config = {
@@ -44,7 +45,7 @@ export const TopUpBank = ({refetchEWallet}) => {
                data: topUpData
           }
 
-          axios(config).then((res) => {
+          axios(config).then(() => {
                refetchEWallet()
                let clearInput = {
                     nominal: "", 
@@ -55,7 +56,7 @@ export const TopUpBank = ({refetchEWallet}) => {
                     card_verification_code:"",
                }
                setInput(clearInput)
-
+               window.location.reload()
           }).catch(() => {
                alert('top up dengan bank gagal!')
           })

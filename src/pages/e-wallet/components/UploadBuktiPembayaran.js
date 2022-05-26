@@ -2,11 +2,11 @@ import React from 'react'
 import { Row, Col, Button, Form } from 'react-bootstrap'
 import styles from './TopUpBank.module.css'
 // import { Form, Upload, InputNumber } from 'antd'
-import { UploadOutlined } from '@ant-design/icons';
 import axios from 'axios';
+import { UserContext } from '../../../context/UserContext';
 
 export const UploadBuktiPembayaran = ({refetchEWallet}) => {
-
+     const [user, ] = React.useContext(UserContext)
      const [input, setInput] = React.useState({
           nominal: 0, 
           image: null
@@ -29,7 +29,7 @@ export const UploadBuktiPembayaran = ({refetchEWallet}) => {
 
      const handleSubmit = () => {
           const fd = new FormData();
-          fd.set("username", "johanesimarmata")
+          fd.set("username", user.user.username)
           fd.append("image", input.image)
           fd.set("nominal", input.nominal)
 
@@ -47,6 +47,7 @@ export const UploadBuktiPembayaran = ({refetchEWallet}) => {
                }
                setInput(clearInput)
                imageInputRef.current.value = ""
+               window.location.reload()
           }).catch(() => {
                alert('top up dengan bukti pembayaran gagal!')
           })
