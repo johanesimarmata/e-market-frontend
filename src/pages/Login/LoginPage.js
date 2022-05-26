@@ -40,7 +40,7 @@ export const LoginPage = () => {
   }
 
   return (
-    <div className="Login shadow-sm">
+    <div className="Login shadow">
       <Form onSubmit={handleSubmit}>
         <Form.Group controlId="email">
           <Form.Label className='login-label'>Email</Form.Label>
