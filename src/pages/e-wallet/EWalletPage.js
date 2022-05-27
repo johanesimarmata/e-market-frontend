@@ -10,8 +10,6 @@ import styles from './EWallet.module.css'
 export const EWalletPage = () => {
      const [user, ] = React.useContext(UserContext)
      const [currentTab, setCurrentTab] = React.useState('top-up-bank')
-     const [isVerifyingTopUp, setIsVerifyingTopUp] = React.useState(false)
-     const [oldSaldo, setOldSaldo] = React.useState('')
 
      const { data : dataEWallet } = useQuery('fetchewallet', async () => {
           let config = {
@@ -24,9 +22,6 @@ export const EWalletPage = () => {
           let response
           try{
                response = await axios(config);
-               if(response.data.data.saldo !== oldSaldo && isVerifyingTopUp){
-                    setIsVerifyingTopUp(false)
-               }
           } catch{
                alert('error when fetching e-wallet')
           }
@@ -36,11 +31,6 @@ export const EWalletPage = () => {
      const currencyFormat=(num)=> {
           return new Intl.NumberFormat("id-ID", { style: "currency", currency: "IDR" }).format(num);
      };
-
-     const verifyingTopUp = () => {
-          setIsVerifyingTopUp(true)
-          setOldSaldo(dataEWallet?.data.saldo) 
-     }
 
      return(
           <>
@@ -53,13 +43,7 @@ export const EWalletPage = () => {
                     <Row>
                          <Col className={`${styles.informasiSaldo} py-3 d-flex flex-row justify-content-around align-items-center`}>
                               <h3 className={styles.noMarginBottom}>Saldo</h3>
-                              {
-                                   isVerifyingTopUp ? (
-                                        <h3 className={styles.noMarginBottom}>Verifying Top up...</h3>
-                                   ) : (
-                                        <h3 className={styles.noMarginBottom}>{currencyFormat(dataEWallet?.data.saldo)}</h3>
-                                   )
-                              }
+                              <h3 className={styles.noMarginBottom}>{currencyFormat(dataEWallet?.data.saldo)}</h3>               
                          </Col>
                     </Row>
                </Container>
@@ -79,10 +63,10 @@ export const EWalletPage = () => {
                                    justify
                               >
                                    <Tab eventKey="top-up-bank" title="Top up Bank">
-                                        <TopUpBank verifyTopUp={verifyingTopUp}/>
+                                        <TopUpBank/>
                                    </Tab>
                                    <Tab eventKey="upload-bukti-pembayaran" title="Upload Bukti Pembayaran">
-                                        <UploadBuktiPembayaran verifyTopUp={verifyingTopUp}/>
+                                        <UploadBuktiPembayaran/>
                                    </Tab>
                               </Tabs>
                          </Col>

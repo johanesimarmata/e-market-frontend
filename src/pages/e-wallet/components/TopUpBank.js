@@ -4,7 +4,7 @@ import styles from './TopUpBank.module.css'
 import axios from 'axios'
 import { UserContext } from '../../../context/UserContext'
 
-export const TopUpBank = ({verifyTopUp}) => {
+export const TopUpBank = () => {
      const [user, ] = React.useContext(UserContext)
      const [input, setInput] = React.useState({
           nominal: "", 
@@ -49,7 +49,6 @@ export const TopUpBank = ({verifyTopUp}) => {
           }
 
           axios(config).then(() => {
-               verifyTopUp()
                let clearInput = {
                     nominal: "", 
                     bank: "",

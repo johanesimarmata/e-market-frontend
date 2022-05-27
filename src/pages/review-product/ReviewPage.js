@@ -16,6 +16,9 @@ export const ReviewPage = ({idproduct}) => {
                let config = {
                     method: 'get',
                     url: 'https://e-market-product-review.herokuapp.com/api/review-product/',
+                    headers: { 
+                         'Authorization': `Bearer ${user.access_token}`
+                    }
                }
                axios(config).then((response) => {
                     setData(response.data.data)
@@ -36,6 +39,9 @@ export const ReviewPage = ({idproduct}) => {
                     url: `https://e-market-product-review.herokuapp.com/api/review-product/${currentReviewId}`,
                     data: {
                          content: input
+                    },
+                    headers: { 
+                         'Authorization': `Bearer ${user.access_token}`
                     }
                }
                axios(config).then(() => {
@@ -57,7 +63,10 @@ export const ReviewPage = ({idproduct}) => {
                let config = {
                     method: 'post',
                     url: 'https://e-market-product-review.herokuapp.com/api/review-product/',
-                    data: reviewData
+                    data: reviewData,
+                    headers: { 
+                         'Authorization': `Bearer ${user.access_token}`
+                    }
                }
      
                axios(config).then(() => {
@@ -79,6 +88,9 @@ export const ReviewPage = ({idproduct}) => {
           let config = {
                method: 'delete',
                url: `https://e-market-product-review.herokuapp.com/api/review-product/${review.id}`,
+               headers: { 
+                    'Authorization': `Bearer ${user.access_token}`
+               }
           }
           axios(config).then(() => {
                setData([])
