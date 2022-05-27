@@ -1,58 +1,39 @@
 import {Card, Button, Row, Col, Container } from 'react-bootstrap'
-import React from 'react'
+import React, {useEffect, useState} from 'react'
+import axios from 'axios'
 
 export const ListProductPage = () =>{
-    
-    const daftarProdukMock = [
-        {
-            "id": 2,
-            "nama": "Asus X509JA-EJ019T Laptop / X509JA-EJ485T",
-            "harga": 2000000,
-            "deskripsi": "lorem ipsum"
-        },
-        {
-            "id": 2,
-            "nama": "Asus X509JA-EJ019T Laptop / X509JA-EJ485T",
-            "harga": 2000000,
-            "deskripsi": "lorem ipsum"
-        },
-        {
-            "id": 2,
-            "nama": "Asus X509JA-EJ019T Laptop / X509JA-EJ485T",
-            "harga": 2000000,
-            "deskripsi": "lorem ipsum"
-        },
 
-        {
-            "id": 2,
-            "nama": "Asus X509JA-EJ019T Laptop / X509JA-EJ485T",
-            "harga": 2000000,
-            "deskripsi": "lorem ipsum"
-        },
-        {
-            "id": 2,
-            "nama": "Asus X509JA-EJ019T Laptop / X509JA-EJ485T",
-            "harga": 2000000,
-            "deskripsi": "lorem ipsum"
-        },
-        {
-            "id": 2,
-            "nama": "Asus X509JA-EJ019T Laptop / X509JA-EJ485T",
-            "harga": 2000000,
-            "deskripsi": "lorem ipsum"
+    const [daftarProduk, setDaftarProduk] = useState([])
+    const [refetch, setRefetch] = useState(true)
+
+    useEffect(() => {
+        const fetchDataProduk  = async () => {
+            let config = {
+            url: 'https://market-system-service.herokuapp.com/api/market-product/',
+            method: 'get',
+            }
+            axios(config).then((res) => {
+                setDaftarProduk(res.data)
+                setRefetch(false)
+            }).catch(() =>{
+                alert('Error when fetch produk')
+            })
         }
-    ]
 
-    console.log(daftarProdukMock)
+        if(refetch){
+            fetchDataProduk()
+        }
+    }, [daftarProduk, refetch])
 
     return(
         <Container>
             <h1 className='text-center my-5'>List Produk</h1>
             <Row>
-            {daftarProdukMock.map(item =>(
+            {daftarProduk.length != 0 ? daftarProduk.map(item =>(
                 <Col>
-                    <Card style={{ width: '15rem' }} className="mb-3">
-                    <Card.Img variant="top" src="https://dlcdnwebimgs.asus.com/gain/44d9521d-f730-411e-97ae-45d3c33f9565/" />
+                    <Card style={{ width: '15rem', height: '26rem' }} className="mb-3">
+                    <Card.Img variant="top" src={item.gambar} style={{ height: '14rem' }} />
                     <Card.Body>
                         <Card.Text style={{ fontSize:'18px'}}>{item.nama}</Card.Text>
                         <Card.Text style={{ fontSize:'17px', fontWeight: 'bold' }}>
@@ -63,11 +44,8 @@ export const ListProductPage = () =>{
                     </Card>
                 </Col>
 
-            ))};
+            )) : <h1 className='text-center'>Belum ada Produk</h1>};
             </Row>
-        
         </Container>
         )
-        
-    
 }
