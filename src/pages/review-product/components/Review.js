@@ -14,7 +14,9 @@ export const Review = ({data, editHandler, deleteHandler}) => {
                     <Card.Header>
                          <div className='d-flex flex-row justify-content-between align-items-center'>
                               <div className='d-flex flex-row justify-content-start align-items-center'>
-                                   <img src={data.reviewer_image} width={50} height={50} alt={`Foto ${data.reviewer_username}`}/>
+                                   {
+                                        // <img src={data.reviewer_image} width={50} height={50} alt={`Foto ${data.reviewer_username}`}/>
+                                   }
                                    <div className='mx-3 d-flex flex-column'>
                                         <strong><p style={{marginBottom: 0}}>{data.reviewer_username}</p></strong>
                                         <p style={{marginBottom: 0}}>{getTimeStamp(data.created_at, data.updated_at)}</p>

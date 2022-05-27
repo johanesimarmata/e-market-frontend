@@ -37,7 +37,7 @@ export const ApplicationRoutes = () => {
                <Route path='/order' element={ProtectedRoute(<OrderListPage/>)}/>
                <Route path='/product-details/:idproduct' element={<ProductDetails/>}/>
                <Route path='/order/detail/:idorder' element={ProtectedRoute(<OrderDetailPage/>)}/>
-               <Route path='/delivery' element={ProtectedRoute(<DeliveryConfirmationPage/>)}/>
+               <Route path='/delivery/:idorder' element={ProtectedRoute(<DeliveryConfirmationPage/>)}/>
                <Route path='/delivery-list' element={ProtectedRoute(<DeliveryListPage/>)}/>
           </Routes>
      )
