@@ -5,7 +5,7 @@ import styles from './TopUpBank.module.css'
 import axios from 'axios';
 import { UserContext } from '../../../context/UserContext';
 
-export const UploadBuktiPembayaran = ({refetchEWallet}) => {
+export const UploadBuktiPembayaran = ({verifyTopUp}) => {
      const [user, ] = React.useContext(UserContext)
      const [input, setInput] = React.useState({
           nominal: 0, 
@@ -36,36 +36,24 @@ export const UploadBuktiPembayaran = ({refetchEWallet}) => {
           let config = {
                method: 'post',
                url: 'https://e-market-wallet.herokuapp.com/api/e-wallet/top-up/bukti-pembayaran',
-               data: fd
+               data: fd,
+               headers: { 
+                    'Authorization': `Bearer ${user.access_token}`
+               }
           }
 
           axios(config).then((res) => {
-               refetchEWallet()
+               verifyTopUp()
                let clearInput = {
                     nominal: 0, 
                     image: null
                }
                setInput(clearInput)
                imageInputRef.current.value = ""
-               window.location.reload()
           }).catch(() => {
                alert('top up dengan bukti pembayaran gagal!')
           })
      }
- 
-     // const normFile = (e) => {
-     //      console.log('Upload event:', e);
-     //      if (Array.isArray(e)) {
-     //        return e;
-     //      }
-     //      return e && e.fileList;
-     // };
-
-     // const handleFileUploadSuccess = ({file, onSuccess}) => {
-     //      setTimeout(() => {
-     //           onSuccess('ok')
-     //      }, 0)
-     // }
 
      return(
           <>
