@@ -11,7 +11,6 @@ export const OrderDetailPage = () => {
     const [order, setOrder] = useState(null);
 
     React.useEffect(() => {
-      const username = user.user.username;
       const config = {
         url: 'http://tk.order.getoboru.xyz/order/' + idorder,
         method: 'get',
@@ -21,6 +20,7 @@ export const OrderDetailPage = () => {
       }
       axios(config).then((data) => {
         setOrder(data.data.data);
+        console.log(data.data.data);
       }).catch((err) => {
         alert('Gagal mendapatkan data order')
         console.log(err);
@@ -52,6 +52,7 @@ export const OrderDetailPage = () => {
                   <p className={'fs-3'}>Total Price: Rp{
                     order?.orderItems?.reduce((prev, cur) => prev + (cur.price * cur.quantity), 0) || 0
                   }</p>
+                  {order.summary && <a href={order.summary} target='_blank' className={'fs-6'}>Download Summary</a>}
                 </Container>
               ) : (<h1>Order Kosong</h1>)
             }
