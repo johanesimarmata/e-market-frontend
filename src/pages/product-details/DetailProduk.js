@@ -5,10 +5,6 @@ import { UserContext } from '../../context/UserContext'
 import axios from 'axios'
 
 export const DetailProduk = ({idproduct}) => {
-     const price = 2000000;
-     const name = 'Asus X509JA-EJ019T Laptop / X509JA-EJ485T';
-     const quantity = 1;
-
      const [user, ] = React.useContext(UserContext);
      const [refetch, setRefetch] = React.useState(true)
      const [detailProduk, setDetailProduk] = React.useState()
@@ -21,14 +17,11 @@ export const DetailProduk = ({idproduct}) => {
                    'Authorization': `Bearer ${user.access_token}`
                },
                data: {
-                    username: user.user?.username,
-                    nama: user.user?.nama,
-                    alamat: user.user?.alamat,
                     orderItems: [
                          {
-                              name,
-                              price,
-                              quantity
+                              name: detailProduk.nama,
+                              price: detailProduk.harga,
+                              quantity: 1
                          }
                     ],
                }  
