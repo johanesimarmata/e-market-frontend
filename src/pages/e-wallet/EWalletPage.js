@@ -1,6 +1,7 @@
 import axios from 'axios'
 import React from 'react'
 import { Container, Row, Col, Tabs, Tab } from 'react-bootstrap'
+import { useQuery } from 'react-query'
 import { UserContext } from '../../context/UserContext'
 import { TopUpBank } from './components/TopUpBank'
 import { UploadBuktiPembayaran } from './components/UploadBuktiPembayaran'
@@ -9,35 +10,36 @@ import styles from './EWallet.module.css'
 export const EWalletPage = () => {
      const [user, ] = React.useContext(UserContext)
      const [currentTab, setCurrentTab] = React.useState('top-up-bank')
-     const [saldo, setSaldo] = React.useState('')
-     const [refetch, setRefetch] = React.useState(true)
+     const [isVerifyingTopUp, setIsVerifyingTopUp] = React.useState(false)
+     const [oldSaldo, setOldSaldo] = React.useState('')
 
-     React.useEffect(() => {
-          const fetchEWallet = () => {
-               let config = {
-                    method: 'get',
-                    url: `https://e-market-wallet.herokuapp.com/api/e-wallet/${user.user.username}/`,
+     const { data : dataEWallet } = useQuery('fetchewallet', async () => {
+          let config = {
+               method: 'get',
+               url: `https://e-market-wallet.herokuapp.com/api/e-wallet/${user.user.username}/`,
+               headers: { 
+                    'Authorization': `Bearer ${user.access_token}`
                }
-               axios(config).then((res) => {
-                    setSaldo(res.data.data.saldo)
-                    setRefetch(false)
-               }).catch(() => {
-                    alert('error when fetching e-wallet')
-               })
           }
-
-          if(refetch){
-               fetchEWallet()
+          let response
+          try{
+               response = await axios(config);
+               if(response.data.data.saldo !== oldSaldo && isVerifyingTopUp){
+                    setIsVerifyingTopUp(false)
+               }
+          } catch{
+               alert('error when fetching e-wallet')
           }
-
-     }, [saldo, refetch])
+          return response.data
+     }, {refetchInterval: 60000})
 
      const currencyFormat=(num)=> {
           return new Intl.NumberFormat("id-ID", { style: "currency", currency: "IDR" }).format(num);
      };
 
-     const refetching = () => {
-          setRefetch(true)
+     const verifyingTopUp = () => {
+          setIsVerifyingTopUp(true)
+          setOldSaldo(dataEWallet?.data.saldo) 
      }
 
      return(
@@ -51,7 +53,13 @@ export const EWalletPage = () => {
                     <Row>
                          <Col className={`${styles.informasiSaldo} py-3 d-flex flex-row justify-content-around align-items-center`}>
                               <h3 className={styles.noMarginBottom}>Saldo</h3>
-                              <h3 className={styles.noMarginBottom}>{currencyFormat(saldo)}</h3>
+                              {
+                                   isVerifyingTopUp ? (
+                                        <h3 className={styles.noMarginBottom}>Verifying Top up...</h3>
+                                   ) : (
+                                        <h3 className={styles.noMarginBottom}>{currencyFormat(dataEWallet?.data.saldo)}</h3>
+                                   )
+                              }
                          </Col>
                     </Row>
                </Container>
@@ -71,10 +79,10 @@ export const EWalletPage = () => {
                                    justify
                               >
                                    <Tab eventKey="top-up-bank" title="Top up Bank">
-                                        <TopUpBank refetchEWallet={refetching}/>
+                                        <TopUpBank verifyTopUp={verifyingTopUp}/>
                                    </Tab>
                                    <Tab eventKey="upload-bukti-pembayaran" title="Upload Bukti Pembayaran">
-                                        <UploadBuktiPembayaran refetchEWallet={refetching}/>
+                                        <UploadBuktiPembayaran verifyTopUp={verifyingTopUp}/>
                                    </Tab>
                               </Tabs>
                          </Col>

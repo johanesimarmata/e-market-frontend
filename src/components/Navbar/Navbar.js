@@ -5,10 +5,28 @@ import { useContext } from 'react'
 import { UserContext } from '../../context/UserContext'
 import axios from 'axios'
 import React from 'react'
+import { useQuery } from 'react-query'
 
 const EMarketNavbar = () =>{
     const [user, setUser] = useContext(UserContext);
-    const [saldo, setSaldo] = React.useState('')
+
+    const { data : dataEWallet } = useQuery('fetchewallet', async () => {
+        let config = {
+            method: 'get',
+            url: `https://e-market-wallet.herokuapp.com/api/e-wallet/${user.user.username}/`,
+            headers: { 
+                'Authorization': `Bearer ${user.access_token}`
+            }
+        }
+        let response
+        try{
+            response = await axios(config);
+        } catch{
+             alert('error when fetching e-wallet')
+        }
+        return response.data
+    }, {refetchInterval: 60000})
+
     React.useEffect(() => {
         const getValidationToken = () => {
             let config = {
@@ -23,22 +41,10 @@ const EMarketNavbar = () =>{
                 logout()
             })
         }
-        const fetchEWallet = async () => {
-            let config = {
-                method: 'get',
-                url: `https://e-market-wallet.herokuapp.com/api/e-wallet/${user.user.username}/`,
-            }
-            axios(config).then((res) => {
-                setSaldo(new Intl.NumberFormat("id-ID", { style: "currency", currency: "IDR" }).format(res.data.data.saldo))
-            }).catch(() => {
-                alert('error when fetching e-wallet')
-            })
-        }
         if(user != null){
             getValidationToken()
-            fetchEWallet()
         }
-    }, [user, saldo])
+    }, [user])
 
     const logout = async ()  => {
         try{
@@ -77,7 +83,7 @@ const EMarketNavbar = () =>{
                     }
                 </Nav>
                 <Nav>
-                    {user && <><Nav.Link href="">{saldo}</Nav.Link>
+                    {user && <><Nav.Link href="">{new Intl.NumberFormat("id-ID", { style: "currency", currency: "IDR" }).format(dataEWallet?.data.saldo)}</Nav.Link>
                     <Nav.Link href="" onClick={logout}> Logout</Nav.Link></>}
                 </Nav>
                 </Navbar.Collapse>

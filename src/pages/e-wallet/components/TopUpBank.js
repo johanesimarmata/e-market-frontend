@@ -4,7 +4,7 @@ import styles from './TopUpBank.module.css'
 import axios from 'axios'
 import { UserContext } from '../../../context/UserContext'
 
-export const TopUpBank = ({refetchEWallet}) => {
+export const TopUpBank = ({verifyTopUp}) => {
      const [user, ] = React.useContext(UserContext)
      const [input, setInput] = React.useState({
           nominal: "", 
@@ -42,11 +42,14 @@ export const TopUpBank = ({refetchEWallet}) => {
           let config = {
                method: 'post',
                url: 'https://e-market-wallet.herokuapp.com/api/e-wallet/top-up/bank',
+               headers: { 
+                    'Authorization': `Bearer ${user.access_token}`
+               },
                data: topUpData
           }
 
           axios(config).then(() => {
-               refetchEWallet()
+               verifyTopUp()
                let clearInput = {
                     nominal: "", 
                     bank: "",
@@ -56,7 +59,6 @@ export const TopUpBank = ({refetchEWallet}) => {
                     card_verification_code:"",
                }
                setInput(clearInput)
-               window.location.reload()
           }).catch(() => {
                alert('top up dengan bank gagal!')
           })
