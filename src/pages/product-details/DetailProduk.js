@@ -1,6 +1,4 @@
 import React from 'react'
-import { useParams } from 'react-router-dom'
-import { ReviewPage } from '../review-product/ReviewPage'
 import { Row, Col, Container, Button } from 'react-bootstrap'
 import laptop from './laptop.png'
 import { UserContext } from '../../context/UserContext'
@@ -12,6 +10,9 @@ export const DetailProduk = ({idproduct}) => {
      const quantity = 1;
 
      const [user, ] = React.useContext(UserContext);
+     const [refetch, setRefetch] = React.useState(true)
+     const [detailProduk, setDetailProduk] = React.useState()
+
      const buyItem = async () => {
           const config = {
                url: 'http://tk.order.getoboru.xyz/order',
@@ -41,29 +42,45 @@ export const DetailProduk = ({idproduct}) => {
                alert('Barang gagal dibeli')
           }
      }
+
+     React.useEffect(() => {
+          const fetchDetailProduk  = async () => {
+              let config = {
+              url: `https://market-system-service.herokuapp.com/api/market-product/${idproduct}`,
+              method: 'get',
+              }
+              axios(config).then((res) => {
+                  setDetailProduk(res.data)
+                  setRefetch(false)
+              }).catch(() =>{
+                  alert('Error when fetch detail produk')
+              })
+          }
+
+          if(refetch){
+              fetchDetailProduk()
+              console.log(detailProduk)
+          }
+      }, [detailProduk, refetch])
+
      return(
           <>
+          {detailProduk &&
                <Container>
                     <Row>
                          <Col>
-                         <img src={laptop} alt='tes' style={{ width: '100%'}} />
+                         <img src={detailProduk.gambar} alt='tes' style={{ width: '100%', height:'20rem'}} />
                          </Col>
                          <Col className="mt-5">
-                         <h1>Asus X509JA-EJ019T Laptop / X509JA-EJ485T</h1>
-                         <h2>Rp 2000000</h2>
-                         <p>Spesifikasi:
-                              # Intel Core i3
-                              # RAM 8GB DDR3
-                              # HDD 500GB
-                              # VGA intel HD Graphics 4000 + Invidia Geforce 2GB 
-                              # Wiffi,USB 3.0 ,Buetoot 4.0
-                              # Screen 14 
-                              # Windows 10 -64 Bit</p>
+                         <h1>{detailProduk.nama}</h1>
+                         <h2>Rp {detailProduk.harga}</h2>
+                         <p>{detailProduk.deskripsi}</p>
                          <Button onClick={buyItem}>Beli</Button>
-                         </Col>     
+                         </Col>
                     </Row>
 
                </Container>
+          }
           </>
      )
 }
