@@ -1,11 +1,10 @@
 import React from 'react'
 import { Row, Col, Button, Form } from 'react-bootstrap'
 import styles from './TopUpBank.module.css'
-// import { Form, Upload, InputNumber } from 'antd'
 import axios from 'axios';
 import { UserContext } from '../../../context/UserContext';
 
-export const UploadBuktiPembayaran = ({verifyTopUp}) => {
+export const UploadBuktiPembayaran = () => {
      const [user, ] = React.useContext(UserContext)
      const [input, setInput] = React.useState({
           nominal: 0, 
@@ -43,7 +42,6 @@ export const UploadBuktiPembayaran = ({verifyTopUp}) => {
           }
 
           axios(config).then((res) => {
-               verifyTopUp()
                let clearInput = {
                     nominal: 0, 
                     image: null
