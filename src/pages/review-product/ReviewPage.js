@@ -16,9 +16,6 @@ export const ReviewPage = ({idproduct}) => {
                let config = {
                     method: 'get',
                     url: 'https://e-market-product-review.herokuapp.com/api/review-product/',
-                    headers: { 
-                         'Authorization': `Bearer ${user.access_token}`
-                    }
                }
                axios(config).then((response) => {
                     setData(response.data.data)
