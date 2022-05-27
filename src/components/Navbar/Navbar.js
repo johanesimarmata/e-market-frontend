@@ -25,7 +25,16 @@ const EMarketNavbar = () =>{
              alert('error when fetching e-wallet')
         }
         return response.data
-    }, {refetchInterval: 60000})
+    }, {
+        refetchInterval: 60000,
+        initialData: () =>  {
+            return {
+                data: {
+                    saldo: 0
+                }
+            }
+        }
+    })
 
     React.useEffect(() => {
         const getValidationToken = () => {
