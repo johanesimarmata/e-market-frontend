@@ -8,9 +8,8 @@ export const OrderListPage = () => {
      const [user, ] = React.useContext(UserContext);
      const [orders, setOrders] = useState([]);
      React.useEffect(() => {
-      const username = user.user.username;
       const config = {
-        url: 'http://tk.order.getoboru.xyz/orders/' + username,
+        url: 'http://tk.order.getoboru.xyz/orders',
         method: 'get',
         headers: {
             'Authorization': `Bearer ${user.access_token}`

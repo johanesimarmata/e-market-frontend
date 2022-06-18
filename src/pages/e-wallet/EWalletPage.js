@@ -26,7 +26,16 @@ export const EWalletPage = () => {
                alert('error when fetching e-wallet')
           }
           return response.data
-     }, {refetchInterval: 60000})
+     }, {
+          refetchInterval: 60000,
+          initialData: () =>  {
+               return {
+                    data: {
+                         saldo: 0
+                    }
+               }
+          }
+     })
 
      const currencyFormat=(num)=> {
           return new Intl.NumberFormat("id-ID", { style: "currency", currency: "IDR" }).format(num);
