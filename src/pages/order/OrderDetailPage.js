@@ -12,7 +12,11 @@ export const OrderDetailPage = () => {
     const [orderDelivery, setOrderDelivery] = useState([]);
 
     const getDeliveries = () => {
-      axios.get('http://e-market-delivery.herokuapp.com/delivery/')
+      axios.get('http://e-market-delivery.herokuapp.com/delivery/', {
+        headers: {
+            'Authorization': `Bearer ${user.access_token}`
+        }
+      })
       .then((response)=> 
       { console.log(response)
         let allDeliveries = response.data

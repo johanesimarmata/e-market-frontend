@@ -8,7 +8,11 @@ export const DeliveryListPage = () =>{
     const [user] = useContext(UserContext)
     const [userDeliveries, setUserDeliveries] = useState([]);
     const getDeliveries = () => {
-        axios.get('http://e-market-delivery.herokuapp.com/delivery/')
+        axios.get('http://e-market-delivery.herokuapp.com/delivery/', {
+            headers: {
+                'Authorization': `Bearer ${user.access_token}`
+            }
+          })
         .then((response)=> 
         { 
         let allDeliveries = response.data
