@@ -24,8 +24,7 @@ export const DeliveryConfirmationPage = () =>{
     const handleAddressChange = (event) => {
         setAddress(event.target.value);
       };
-
-    
+ 
   const handleSubmit = async (event) => {
     event.preventDefault()
     let data = {
@@ -35,15 +34,15 @@ export const DeliveryConfirmationPage = () =>{
         delivery_cost: harga,
         destination_address: address
     }
-    var form_data = new FormData();
-    for(var key in data){
-        form_data.append(key, data[key]);
-        console.log(key, data[key])
-    }
-    axios.post('http://e-market-delivery.herokuapp.com/delivery/', data)
+    axios.post('http://e-market-delivery.herokuapp.com/delivery/', data, {
+        headers: {
+            'Authorization': `Bearer ${user.access_token}`
+        }
+      })
     .then(response => navigate((`/delivery-list`)))
     .catch(error => {
         console.error('There was an error!', error);
+        alert("Cannot create delivery for this order")
         });
     }
 
